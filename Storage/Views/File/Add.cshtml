@@ -1,0 +1,20 @@
+﻿@model DomainModel.Models.FileCreateModel
+
+@{
+    ViewBag.Title = "FileAdd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Загрузка одного файла</h2>
+<p>
+    @using (Html.BeginForm("Add", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="fileUpload" /><br />
+        <input type="submit" name="Submit" id="SubmitSingle" value="Upload" />
+    }
+</p>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

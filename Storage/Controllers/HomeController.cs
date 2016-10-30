@@ -10,6 +10,12 @@ namespace Storage.Controllers
     {
         public ActionResult Index()
         {
+            string result = "Вы не авторизованы";
+            if (User.Identity.IsAuthenticated)
+            {
+                result = "Ваш логин: " + User.Identity.Name;
+            }
+            ViewBag.Message = result;
             return View();
         }
 
