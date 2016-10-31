@@ -7,7 +7,8 @@ namespace DomainModel.Repositories
     public interface IFileRepository
     {
         void Add(FileCreateModel item);
-        IEnumerable<FileViewModel> GetList();
+        IEnumerable<FileViewModel> GetList(string orderby, string direction);
+        IEnumerable<FileViewModel> RowList(); 
         void Delete(Guid idFile);
         FileCreateModel Get(Guid idFile);
 

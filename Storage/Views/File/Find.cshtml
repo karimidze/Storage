@@ -1,17 +1,25 @@
 ﻿@model IEnumerable<DomainModel.Models.FileViewModel>
+@{ 
+    var attributes = new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Title", Value = "Title"},
+                    new SelectListItem { Text = "CreationAuthor", Value = "CreationAuthor"},
+                    new SelectListItem { Text = "CreationDate", Value = "CreationDate"},
+                }, "Value", "Text"); ;
+}
+@using Storage.Helpers
 <p>
     Найти:
     @{Html.BeginForm();}
+    @Html.TextBox("dateattribute", null, new { type = "date" })
     <input type="text" name="searchline">
-    @Html.DropDownList("Types", ViewData["Attributes"] as List<SelectListItem>)
+    @Html.DropDownList("attribute", attributes, "")
     <input type="submit" value="Filter" class="btn btn-default" />
     @{Html.EndForm();}
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IdFile)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
@@ -27,10 +35,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.IdFile)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.FormatNewLines(item.Title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CreationAuthor)
@@ -39,9 +44,15 @@
             @Html.DisplayFor(modelItem => item.CreationDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @{
+                var base64 = Convert.ToBase64String(item.FileData);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+            <img src="@imgSrc" style="max-height:100px" />
+        </td>
+        <td>
+            @Html.ActionLink("Скачать", "Get", new { idFile = item.IdFile }) |
+            @Html.ActionLink("Удалить", "Delete", new { idFile = item.IdFile })
         </td>
     </tr>
 }

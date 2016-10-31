@@ -23,16 +23,51 @@ namespace DomainModel.Repositories
             }
         }
 
-        public IEnumerable<FileViewModel> Find(string attribute, string searchline)
+        public IEnumerable<FileViewModel> Find(string attribute, string searchline, DateTime? dateattribute)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                var items = session
-                    .CreateCriteria(typeof(FileViewModel))
-                    .Add(Restrictions.Like(attribute, searchline, MatchMode.Anywhere))
-                    .List<FileViewModel>();
+                if (searchline == "")
+                {
+                    if (dateattribute == null)
+                    {
+                        var items = session.CreateCriteria(typeof(FileViewModel)).List<FileViewModel>();
+                        return items;
+                    }
+                    else
+                    {
+                        DateTime initDate = dateattribute.Value.Date;
+                        DateTime endDate = dateattribute.Value.Date.AddDays(1).AddSeconds(-1);
+                        var items = session
+                        .CreateCriteria(typeof(FileViewModel))
+                        .Add(Expression.Between("CreationDate", initDate, endDate))
+                        .List<FileViewModel>();
+                        return items;
+                    }
+                }
 
-                return items;
+                else
+                {
+                    if (dateattribute == null)
+                    {
+                        var items = session
+                        .CreateCriteria(typeof(FileViewModel))
+                        .Add(Restrictions.Like(attribute, searchline, MatchMode.Anywhere))
+                        .List<FileViewModel>();
+                        return items;
+                    }
+                    else
+                    {
+                        DateTime initDate = dateattribute.Value.Date;
+                        DateTime endDate = dateattribute.Value.Date.AddDays(1).AddSeconds(-1);
+                        var items = session
+                        .CreateCriteria(typeof(FileViewModel))
+                        .Add(Expression.Between("CreationDate", initDate, endDate))
+                        .Add(Restrictions.Like(attribute, searchline, MatchMode.Anywhere))
+                        .List<FileViewModel>();
+                        return items;
+                    }
+                }
             }
         }
 
@@ -48,11 +83,66 @@ namespace DomainModel.Repositories
             }
         }
 
-        public IEnumerable<FileViewModel> GetList()
+        public IEnumerable<FileViewModel> RowList()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 var items = session.CreateCriteria(typeof(FileViewModel)).List<FileViewModel>();
+
+                return items;
+            }
+        }
+
+        public IEnumerable<FileViewModel> GetList(string orderby, string direction)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                var criteria = session.CreateCriteria(typeof(FileViewModel));
+
+                if (orderby != null && direction != null)
+                {
+                    switch (orderby)
+                    {
+                        case "Title":
+                            if (direction == "asc")
+                            {
+                                criteria.AddOrder(Order.Asc("Title"));
+                            }
+                            else
+                            {
+                                criteria.AddOrder(Order.Desc("Title"));
+                            }
+                            break;
+                        case "CreationDate":
+                            if (direction == "asc")
+                            {
+                                criteria.AddOrder(Order.Asc("CreationDate"));
+                            }
+                            else
+                            {
+                                criteria.AddOrder(Order.Desc("CreationDate"));
+                            }
+                            break;
+                        case "CreationAuthor":
+                            if (direction == "asc")
+                            {
+                                criteria.AddOrder(Order.Asc("CreationAuthor"));
+                            }
+                            else
+                            {
+                                criteria.AddOrder(Order.Desc("CreationAuthor"));
+                            }
+                            break;
+                    }
+
+                    }
+                else
+                {
+                    criteria.AddOrder(Order.Asc("CreationDate"));
+                }
+
+                var items = criteria.List<FileViewModel>();
+
                 return items;
             }
         }

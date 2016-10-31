@@ -11,6 +11,8 @@ namespace DomainModel.Models
 
         public virtual string Title { get; set; }
 
+        public virtual byte[] FileData { get; set; }
+
         public virtual string CreationAuthor { get; set; }
 
         public virtual DateTime CreationDate { get; set; }
