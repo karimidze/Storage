@@ -7,6 +7,20 @@ namespace DomainModel.Repositories
 {
     public class UserRepository : IUserRepository
     {
+
+        public int PreventDuplicate(string username)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                var items = session
+                    .CreateCriteria(typeof(UserAccount))
+                    .Add(Restrictions.Eq("Username", username))
+                    .List<UserAccount>();
+
+                return items.Count;
+            }
+        }
+
         public void Add(UserAccount item)
         {
             using (ISession session = NHibernateHelper.OpenSession())
@@ -19,7 +33,7 @@ namespace DomainModel.Repositories
                     }
                     catch (System.Exception)
                     {
-
+                    
                         transaction.Rollback();
                     }
                     transaction.Commit();

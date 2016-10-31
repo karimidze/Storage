@@ -1,32 +1,37 @@
 ﻿@model IEnumerable<DomainModel.Models.FileViewModel>
-
-<p>
-    @Html.ActionLink("Add new", "Add")
-</p>
+@using Storage.Helpers
+<h4>
+    @Html.ActionLink("Добавить файл", "Add")
+</h4>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IdFile)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Title)
+            @Html.ActionLink("<", "Index", new { orderby = "Title", direction = "desc"})
+            @Html.ActionLink(">", "Index", new { orderby = "Title", direction = "asc" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreationAuthor)
+            @Html.ActionLink("<", "Index", new { orderby = "CreationAuthor", direction = "desc" })
+            @Html.ActionLink(">", "Index", new { orderby = "CreationAuthor", direction = "asc" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreationDate)
+            @Html.ActionLink("<", "Index", new { orderby = "CreationDate", direction = "desc" })
+            @Html.ActionLink(">", "Index", new { orderby = "CreationDate", direction = "asc" })
         </th>
-        <th></th>
+        <th>
+            Превью
+        </th>
+        <th>
+            Скачать/удалить
+        </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.IdFile)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.FormatNewLines(item.Title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CreationAuthor)
@@ -35,8 +40,15 @@
             @Html.DisplayFor(modelItem => item.CreationDate)
         </td>
         <td>
-            @Html.ActionLink("Download", "Get", new { idFile = item.IdFile }) |
-            @Html.ActionLink("Delete", "Delete", new { idFile = item.IdFile })
+            @{
+                var base64 = Convert.ToBase64String(item.FileData);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+            <img src="@imgSrc" style="max-height:100px" />
+        </td>
+        <td>
+            @Html.ActionLink("Скачать", "Get", new { idFile = item.IdFile })
+            @Html.ActionLink("Удалить", "Delete", new { idFile = item.IdFile })
         </td>
     </tr>
 }

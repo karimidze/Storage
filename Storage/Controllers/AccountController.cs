@@ -29,6 +29,11 @@ namespace Storage.Controllers
             newuser.Username = model.Username;
             newuser.Password = model.Password;
             var rep = UserRepository;
+            if (rep.PreventDuplicate(newuser.Username)==1)
+            {
+                ModelState.AddModelError("", "Пользователя с таким логином уже зарегистрирован");
+                return View();
+            }
             rep.Add(newuser);
 
             return RedirectToAction("Login", "Account");

@@ -18,6 +18,7 @@
     </id>
     <property name="IdFile" />
     <property name="Title" />
+    <property name="FileData" type="BinaryBlob" />
     <property name="CreationAuthor" />
     <property name="CreationDate" />
   </class>
