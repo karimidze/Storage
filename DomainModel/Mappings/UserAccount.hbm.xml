@@ -12,27 +12,4 @@
 
   </class>
 
-  <class name="FileViewModel" table="Files">
-    <id name="Id">
-      <generator class="native" />
-    </id>
-    <property name="IdFile" />
-    <property name="Title" />
-    <property name="FileData" type="BinaryBlob" />
-    <property name="CreationAuthor" />
-    <property name="CreationDate" />
-  </class>
-
-  <class name="FileCreateModel" table="Files">
-    <id name="Id">
-      <generator class="native" />
-    </id>
-    <property name="IdFile" />
-    <property name="Title" />
-    <property name="FileData" type="BinaryBlob" />
-    <property name="CreationAuthor" />
-    <property name="CreationDate" />
-    
-  </class>
-
 </hibernate-mapping>

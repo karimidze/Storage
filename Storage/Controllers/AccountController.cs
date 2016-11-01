@@ -14,7 +14,6 @@ namespace Storage.Controllers
             UserRepository = new UserRepository();
         }
 
-        // GET: Account
         [HttpGet]
         public ActionResult CreateUser()
         {

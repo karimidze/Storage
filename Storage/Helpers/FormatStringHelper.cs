@@ -12,11 +12,12 @@ namespace Storage.Helpers
         {
             if (input.Length > 30)
             {
-                return helper.Raw(helper.Encode(input).Substring(0, 30)+"(...)");
+                return helper.Raw(helper.Encode(input).Substring(0, 30) + "(...)");
             }
             else
-
+            {
                 return helper.Raw(helper.Encode(input));
+            }
         }
     }
 }

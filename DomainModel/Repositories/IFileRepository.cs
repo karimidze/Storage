@@ -6,11 +6,11 @@ namespace DomainModel.Repositories
 {
     public interface IFileRepository
     {
-        void Add(FileCreateModel item);
-        IEnumerable<FileViewModel> GetList(string orderby, string direction);
-        IEnumerable<FileViewModel> RowList(); 
+        void Add(FileModel item);
+        IEnumerable<FileModel> GetList(string orderby, string direction);
+        IEnumerable<FileModel> RowList(); 
         void Delete(Guid idFile);
-        FileCreateModel Get(Guid idFile);
+        FileModel Get(Guid idFile);
 
     }
 }

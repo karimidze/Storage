@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DomainModel.Models.FileViewModel>
+﻿@model IEnumerable<DomainModel.Models.FileModel>
 @using Storage.Helpers
 <h4>
     @Html.ActionLink("Добавить файл", "Add")
@@ -21,10 +21,10 @@
             @Html.ActionLink(">", "Index", new { orderby = "CreationDate", direction = "asc" })
         </th>
         <th>
-            Превью
+            
         </th>
         <th>
-            Скачать/удалить
+            
         </th>
     </tr>
 

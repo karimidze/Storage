@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DomainModel.Models.FileViewModel>
+﻿@model IEnumerable<DomainModel.Models.FileModel>
 @{ 
     var attributes = new SelectList(
                 new List<SelectListItem>
@@ -29,7 +29,12 @@
         <th>
             @Html.DisplayNameFor(model => model.CreationDate)
         </th>
-        <th></th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
     </tr>
 
 @foreach (var item in Model) {

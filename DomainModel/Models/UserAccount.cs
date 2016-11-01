@@ -14,6 +14,7 @@ namespace DomainModel.Models
         
         [Required]
         public virtual string Username { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         public virtual string Password { get; set; }

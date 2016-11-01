@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DomainModel.Models
 {
 
-    public class FileViewModel
+    public class FileModel
     {
         public virtual int Id { get; set; }
         public virtual Guid IdFile { get; set; }
@@ -16,21 +16,5 @@ namespace DomainModel.Models
         public virtual string CreationAuthor { get; set; }
 
         public virtual DateTime CreationDate { get; set; }
-    }
-
-    public class FileCreateModel
-    {
-        public virtual int Id { get; set; }
-
-        public virtual Guid IdFile { get; set; }
-        
-        public virtual string Title { get; set; }
-
-        public virtual byte[] FileData { get; set; }
-
-        public virtual string CreationAuthor { get; set; }
-
-        public virtual DateTime CreationDate { get; set; }
-
     }
 }

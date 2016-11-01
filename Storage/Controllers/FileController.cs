@@ -30,7 +30,10 @@ namespace Storage.Controllers
             {
                 return View(FileRepository.GetList(orderby, direction));
             }
-            else return RedirectToAction("Login", "Account");
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
         
         public ActionResult Get(Guid idFile)
@@ -44,7 +47,11 @@ namespace Storage.Controllers
 
                 return result;
             }
-            else return RedirectToAction("Login", "Account");
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
         }
 
         public ActionResult Delete(Guid idFile)
@@ -54,10 +61,12 @@ namespace Storage.Controllers
                 FileRepository.Delete(idFile);
                 return RedirectToAction("Index", "File");
             }
-            else return RedirectToAction("Login", "Account");
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
-        // GET: File
         [HttpGet]
         public ActionResult Add()
         {
@@ -69,13 +78,15 @@ namespace Storage.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(FileCreateModel model)
+        public ActionResult Add(FileModel model)
         {
             if (Authorized())
             {
                 Guid g;
                 g = Guid.NewGuid();
+
                 var file = Request.Files[0];
+
                 if (Request.Files.Count > 0)
                 {
                     byte[] filedata = null;
@@ -92,8 +103,12 @@ namespace Storage.Controllers
                 }
 
                 return RedirectToAction("Index", "File");
+
             }
-            else return RedirectToAction("Login", "Account");
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
         
         
@@ -105,7 +120,10 @@ namespace Storage.Controllers
 
                 return View(findresults);
             }
-            else return RedirectToAction("Login", "Account");
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
     }
 }

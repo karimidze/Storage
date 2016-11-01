@@ -11,7 +11,7 @@ namespace DomainModel.Repositories
 
     public class FileRepository : IFileRepository
     {
-        public void Add(FileCreateModel item)
+        public void Add(FileModel item)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -23,7 +23,7 @@ namespace DomainModel.Repositories
             }
         }
 
-        public IEnumerable<FileViewModel> Find(string attribute, string searchline, DateTime? dateattribute)
+        public IEnumerable<FileModel> Find(string attribute, string searchline, DateTime? dateattribute)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -31,7 +31,7 @@ namespace DomainModel.Repositories
                 {
                     if (dateattribute == null)
                     {
-                        var items = session.CreateCriteria(typeof(FileViewModel)).List<FileViewModel>();
+                        var items = session.CreateCriteria(typeof(FileModel)).List<FileModel>();
                         return items;
                     }
                     else
@@ -39,9 +39,9 @@ namespace DomainModel.Repositories
                         DateTime initDate = dateattribute.Value.Date;
                         DateTime endDate = dateattribute.Value.Date.AddDays(1).AddSeconds(-1);
                         var items = session
-                        .CreateCriteria(typeof(FileViewModel))
+                        .CreateCriteria(typeof(FileModel))
                         .Add(Expression.Between("CreationDate", initDate, endDate))
-                        .List<FileViewModel>();
+                        .List<FileModel>();
                         return items;
                     }
                 }
@@ -51,9 +51,9 @@ namespace DomainModel.Repositories
                     if (dateattribute == null)
                     {
                         var items = session
-                        .CreateCriteria(typeof(FileViewModel))
+                        .CreateCriteria(typeof(FileModel))
                         .Add(Restrictions.Like(attribute, searchline, MatchMode.Anywhere))
-                        .List<FileViewModel>();
+                        .List<FileModel>();
                         return items;
                     }
                     else
@@ -61,43 +61,43 @@ namespace DomainModel.Repositories
                         DateTime initDate = dateattribute.Value.Date;
                         DateTime endDate = dateattribute.Value.Date.AddDays(1).AddSeconds(-1);
                         var items = session
-                        .CreateCriteria(typeof(FileViewModel))
+                        .CreateCriteria(typeof(FileModel))
                         .Add(Expression.Between("CreationDate", initDate, endDate))
                         .Add(Restrictions.Like(attribute, searchline, MatchMode.Anywhere))
-                        .List<FileViewModel>();
+                        .List<FileModel>();
                         return items;
                     }
                 }
             }
         }
 
-        public FileCreateModel Get(Guid idFile)
+        public FileModel Get(Guid idFile)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                var criteria = session.CreateCriteria(typeof(FileCreateModel));
+                var criteria = session.CreateCriteria(typeof(FileModel));
 
-                criteria.Add(Restrictions.Where<FileCreateModel>(f => f.IdFile == idFile));
+                criteria.Add(Restrictions.Where<FileModel>(f => f.IdFile == idFile));
 
-                return criteria.UniqueResult<FileCreateModel>();
+                return criteria.UniqueResult<FileModel>();
             }
         }
 
-        public IEnumerable<FileViewModel> RowList()
+        public IEnumerable<FileModel> RowList()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                var items = session.CreateCriteria(typeof(FileViewModel)).List<FileViewModel>();
+                var items = session.CreateCriteria(typeof(FileModel)).List<FileModel>();
 
                 return items;
             }
         }
 
-        public IEnumerable<FileViewModel> GetList(string orderby, string direction)
+        public IEnumerable<FileModel> GetList(string orderby, string direction)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                var criteria = session.CreateCriteria(typeof(FileViewModel));
+                var criteria = session.CreateCriteria(typeof(FileModel));
 
                 if (orderby != null && direction != null)
                 {
@@ -134,14 +134,14 @@ namespace DomainModel.Repositories
                             }
                             break;
                     }
+                }
 
-                    }
                 else
                 {
                     criteria.AddOrder(Order.Asc("CreationDate"));
                 }
 
-                var items = criteria.List<FileViewModel>();
+                var items = criteria.List<FileModel>();
 
                 return items;
             }
@@ -153,11 +153,10 @@ namespace DomainModel.Repositories
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    var criteria = session.CreateCriteria(typeof(FileViewModel));
+                    var criteria = session.CreateCriteria(typeof(FileModel));
+                    criteria.Add(Restrictions.Where<FileModel>(f => f.IdFile == idFile));
 
-                    criteria.Add(Restrictions.Where<FileViewModel>(f => f.IdFile == idFile));
-
-                    var files = criteria.List<FileViewModel>();
+                    var files = criteria.List<FileModel>();
                     try
                     {
                         session.Delete(files.FirstOrDefault());
@@ -170,7 +169,5 @@ namespace DomainModel.Repositories
                 }
             }
         }
-
-
     }
 }

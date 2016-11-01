@@ -33,7 +33,6 @@ namespace DomainModel.Repositories
                     }
                     catch (System.Exception)
                     {
-                    
                         transaction.Rollback();
                     }
                     transaction.Commit();
