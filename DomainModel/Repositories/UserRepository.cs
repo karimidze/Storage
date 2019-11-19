@@ -31,11 +31,14 @@ namespace DomainModel.Repositories
                     {
                         session.Save(item);
                     }
-                    catch (System.Exception)
+                    catch (System.Exception e)
                     {
                         transaction.Rollback();
                     }
-                    transaction.Commit();
+                    finally
+                    {
+                        transaction.Commit();
+                    }
                 }
             }
         }
